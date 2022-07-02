@@ -19,18 +19,28 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get("/", (_req, res) => {
-  res.send("<h1>oi meu chapa</h1>");
+  res.send("<h1>oi meu chapa, servidor rodando ^-*</h1>");
 });
 
-app.get("/register", (req, res) => {
-  const SQL =
-    "INSERT INTO produtos (nome, preco, descricao) VALUES ('Carrinho Esportivo', '32.44', 'Carrinho de brinquedo esportivo com várias cores legais')";
+app.post("/register", (req, res) => {
+  const { nome, preco, descricao } = req.body;
+  const SQL = "INSERT INTO produtos (nome, preco, descricao) VALUES (?,?,?)";
+
+  db.query(SQL, [nome, preco, descricao], (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+});
+
+app.get("/getProducts", (_req, res) => {
+  const SQL = "SELECT nome, preco, descricao FROM produtos";
 
   db.query(SQL, (err, result) => {
     if (err) {
       console.log(err);
     } else {
-      console.log("tudo ok");
+      res.send(result);
     }
   });
 });
