@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import Axios from "axios";
 
 import { Box, Container } from "@mui/material";
 
@@ -40,7 +41,17 @@ const Register = () => {
   );
 
   const handleClick = () => {
-    console.log(valuesInputsRegister);
+    Axios.post("http://localhost:3001/register", {
+      nome: valuesInputsRegister.nameProduto,
+      preco: valuesInputsRegister.priceProduct,
+      descricao: valuesInputsRegister.describeProduct,
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
