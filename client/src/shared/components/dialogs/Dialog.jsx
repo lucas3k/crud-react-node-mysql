@@ -12,10 +12,10 @@ import {
 
 const FormDialog = (props) => {
   const [editValues, setEditValues] = useState({
-    id: props.id,
-    name: props.title,
-    cost: props.cost,
-    category: props.category,
+    idProduto: props.id,
+    nome: props.title,
+    preco: props.cost,
+    descricao: props.category,
   });
 
   const handleChangeValues = (values) => {
@@ -31,35 +31,16 @@ const FormDialog = (props) => {
 
   const handleEditGame = () => {
     Axios.put("http://localhost:3001/edit", {
-      id: editValues.id,
-      name: editValues.name,
-      cost: editValues.cost,
-      category: editValues.category,
-    }).then(() => {
-      props.setListCard(
-        props.listCard.map((value) => {
-          return value.id == editValues.id
-            ? {
-                id: editValues.id,
-                name: editValues.name,
-                cost: editValues.cost,
-                category: editValues.category,
-              }
-            : value;
-        })
-      );
-    });
+      ...editValues,
+    })
+      .then((response) => console.log(response))
+      .catch((err) => {
+        console.log(err);
+      });
     handleClose();
   };
 
   const handleDeleteGame = () => {
-    Axios.delete(`http://localhost:3001/delete/${editValues.id}`).then(() => {
-      props.setListCard(
-        props.listCard.filter((value) => {
-          return value.id != editValues.id;
-        })
-      );
-    });
     handleClose();
   };
 
@@ -85,7 +66,7 @@ const FormDialog = (props) => {
             autoFocus
             margin="dense"
             id="name"
-            label="Nome do jogo"
+            label="Nome do produto"
             defaultValue={props.title}
             type="text"
             onChange={handleChangeValues}
@@ -105,7 +86,7 @@ const FormDialog = (props) => {
             autoFocus
             margin="dense"
             id="category"
-            label="Categoria"
+            label="Descrição"
             defaultValue={props.category}
             type="text"
             onChange={handleChangeValues}

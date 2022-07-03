@@ -19,7 +19,14 @@ const CardsProducts = ({ products }) => {
 
   return (
     <>
-      <FormDialog open={open} setOpen={setOpen} />
+      <FormDialog
+        open={open}
+        setOpen={setOpen}
+        id={products.idProduto}
+        title={products.nome}
+        cost={products.preco}
+        category={products.descricao}
+      />
       <Card
         sx={{
           backgroundColor: "#DEDEDE",
@@ -48,9 +55,6 @@ const CardsProducts = ({ products }) => {
             })}
           </Typography>
           <CardActions>
-            <Button variant="contained" size="small">
-              Deletar
-            </Button>
             <Button variant="contained" size="small" onClick={handleOpen}>
               Modificar
             </Button>

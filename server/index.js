@@ -34,9 +34,23 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/getProducts", (_req, res) => {
-  const SQL = "SELECT nome, preco, descricao FROM produtos";
+  const SQL = "SELECT * FROM produtos";
 
   db.query(SQL, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+app.put("/edit", (req, res) => {
+  const { idProduto, nome, preco, descricao } = req.body;
+  const SQL =
+    "UPDATE produtos SET nome = ?, preco = ?, descricao = ? WHERE idProduto = ?";
+
+  db.query(SQL, [nome, preco, descricao, idProduto], (err, result) => {
     if (err) {
       console.log(err);
     } else {
